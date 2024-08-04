@@ -139,7 +139,7 @@ def diagonal_check(board, row, col, coin):
     
     return False
 
-def win(board, row, col, coin):
+def win_play(board, row, col, coin):
     # Going from last played move
     return True if vertical_check(board, row, col, coin) or horizontal_check(board, row, col, coin) or diagonal_check(board, row, col, coin) else False
 
@@ -158,50 +158,4 @@ draw_board(board)
 
 pygame.display.update()
 myfont = pygame.font.SysFont("monospace", 75)
-
-
-while not game_over:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
-        
-        if event.type == pygame.MOUSEMOTION:
-            pygame.draw.rect(screen, BLACK, (0,0, width, SQ_SIZE))
-            pos_x = event.pos[0]
-            if turn % 2 == PLAYER:
-                pygame.draw.circle(screen, RED, (pos_x, int(SQ_SIZE/2)), RADIUS)
-            else:
-                pygame.draw.circle(screen, YELLOW, (pos_x, int(SQ_SIZE/2)), RADIUS)
-        
-        pygame.display.update()
-
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            pygame.draw.rect(screen, BLACK, (0,0, width, SQ_SIZE))
-            if turn % 2 == PLAYER:
-                pos_x = event.pos[0]
-                col = int(math.floor(pos_x/SQ_SIZE))
-
-                if is_valid_location(board, col):
-                    row = get_next_open_row(board, col)
-                    drop_coin(board, row, col, 1)
-                    if win(board, row, col, 1):
-                        label = myfont.render("Player 1 Wins!", 1, RED)
-                        screen.blit(label, (40,10))
-                        game_over = True
-            else:
-                pos_x = event.pos[0]
-                col = int(math.floor(pos_x/SQ_SIZE))
-
-                if is_valid_location(board, col):
-                    row = get_next_open_row(board, col)
-                    drop_coin(board, row, col, 2)
-                    if win(board, row, col, 2):
-                        label = myfont.render("Player 2 Wins!", 1, YELLOW)
-                        screen.blit(label, (40,10))
-                        game_over = True
-            turn += 1
-            print(board)
-            draw_board(board)
-            if game_over:
-                pygame.time.wait(3000)
 
