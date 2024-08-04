@@ -55,25 +55,21 @@ def get_next_open_row(board, col):
             return row
 
 def win(board, coin):
-    # Check horizontal locations for win
 	for c in range(COL_COUNT-3):
 		for r in range(ROW_COUNT):
 			if board[r][c] == coin and board[r][c+1] == coin and board[r][c+2] == coin and board[r][c+3] == coin:
 				return True
 
-	# Check vertical locations for win
 	for c in range(COL_COUNT):
 		for r in range(ROW_COUNT-3):
 			if board[r][c] == coin and board[r+1][c] == coin and board[r+2][c] == coin and board[r+3][c] == coin:
 				return True
 
-	# Check positively sloped diaganols
 	for c in range(COL_COUNT-3):
 		for r in range(ROW_COUNT-3):
 			if board[r][c] == coin and board[r+1][c+1] == coin and board[r+2][c+2] == coin and board[r+3][c+3] == coin:
 				return True
 
-	# Check negatively sloped diaganols
 	for c in range(COL_COUNT-3):
 		for r in range(3, ROW_COUNT):
 			if board[r][c] == coin and board[r-1][c+1] == coin and board[r-2][c+2] == coin and board[r-3][c+3] == coin:
@@ -111,7 +107,7 @@ def evaluate_window(window, coin):
 	if window.count(coin) == 4:
 		score += 100
 	elif window.count(coin) == 3 and window.count(EMPTY) == 1:
-		score += 10 # maybe 5
+		score += 10 
 	elif window.count(coin) == 2 and window.count(EMPTY) == 2:
 		score += 2
 
@@ -124,26 +120,22 @@ def evaluate_window(window, coin):
 def score_position(board, coin):
     score = 0
 
-	## Score center column
     center_array = [int(i) for i in list(board[:, COL_COUNT//2])]
     center_count = center_array.count(coin)
     score += center_count * 3
 
-	## Score Horizontal
     for r in range(ROW_COUNT):
         row_array = [int(i) for i in list(board[r,:])]
         for c in range(COL_COUNT-3):
             window = row_array[c:c+WINDOW_LENGTH]
             score += evaluate_window(window, coin)
 
-	## Score Vertical
     for c in range(COL_COUNT):
         col_array = [int(i) for i in list(board[:,c])]
         for r in range(ROW_COUNT-3):
             window = col_array[r:r+WINDOW_LENGTH]
             score += evaluate_window(window, coin)
 
-	## Score posiive sloped diagonal
     for r in range(ROW_COUNT-3):
         for c in range(COL_COUNT-3):
             window = [board[r+i][c+i] for i in range(WINDOW_LENGTH)]
@@ -188,7 +180,7 @@ def minimax(board, depth, alpha, beta, maximizingPlayer):
 				break
 		return column, value
 
-	else: # Minimizing player
+	else: # minimizing player
 		value = math.inf
 		column = random.choice(valid_locations)
 		for col in valid_locations:
