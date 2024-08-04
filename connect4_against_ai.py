@@ -1,10 +1,8 @@
 import numpy as np
 import random
 import pygame
-import sys
 import math
 
-# Global Variables
 BLUE = (0,0,255)
 BLACK = (0,0,0)
 RED = (255,0,0)
@@ -29,7 +27,7 @@ def create_board():
     board = np.zeros((ROW_COUNT, COL_COUNT))
     return board
 
-def draw_board(board):
+def draw_board(board, screen):
     for r in range(ROW_COUNT):
         for c in range(COL_COUNT):
             pygame.draw.rect(screen, BLUE, (c*SQ_SIZE, r*SQ_SIZE+SQ_SIZE, SQ_SIZE, SQ_SIZE))
@@ -197,22 +195,7 @@ def minimax(board, depth, alpha, beta, maximizingPlayer):
 		return column, value
 
 
-board = create_board()
-print(board)
-game_over = False
 
-pygame.init()
-
-width = COL_COUNT * SQ_SIZE
-height = (ROW_COUNT+1) * SQ_SIZE
-
-screen = pygame.display.set_mode((width, height))
-draw_board(board)
-
-pygame.display.update()
-myfont = pygame.font.SysFont("monospace", 75)
-
-turn = random.randint(PLAYER, AI)
 
 
 

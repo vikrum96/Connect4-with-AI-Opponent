@@ -1,7 +1,5 @@
 import numpy as np
 import pygame
-import sys
-import math
 
 # Global Variables
 BLUE = (0,0,255)
@@ -21,7 +19,7 @@ def create_board():
     board = np.zeros((ROW_COUNT, COL_COUNT))
     return board
 
-def draw_board(board):
+def draw_board(board, screen):
     for r in range(ROW_COUNT):
         for c in range(COL_COUNT):
             pygame.draw.rect(screen, BLUE, (c*SQ_SIZE, r*SQ_SIZE+SQ_SIZE, SQ_SIZE, SQ_SIZE))
@@ -143,19 +141,6 @@ def win_play(board, row, col, coin):
     # Going from last played move
     return True if vertical_check(board, row, col, coin) or horizontal_check(board, row, col, coin) or diagonal_check(board, row, col, coin) else False
 
-board = create_board()
-print(board)
-game_over = False
-turn = 0
 
-pygame.init()
 
-width = COL_COUNT * SQ_SIZE
-height = (ROW_COUNT+1) * SQ_SIZE
-
-screen = pygame.display.set_mode((width, height))
-draw_board(board)
-
-pygame.display.update()
-myfont = pygame.font.SysFont("monospace", 75)
 
